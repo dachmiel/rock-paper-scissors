@@ -18,7 +18,19 @@ function getHumanChoice() {
   return userInput;
 }
 
+function welcomePlayer() {
+  console.log(
+    "---Welcome to Paper, Rock Scissors---\n" +
+      "\n" +
+      "The game consists of five rounds. \n\nIt will prompt you for your input and keep " +
+      "track of your score as you progress.\n\n" +
+      "Game starting...\n\n"
+  );
+}
+
 function playGame() {
+  welcomePlayer();
+
   let humanScore = 0;
   let computerScore = 0;
   let currRound = 1;
