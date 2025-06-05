@@ -11,3 +11,9 @@ function getComputerChoice() {
   //   console.log(result);
   return result;
 }
+
+function getHumanChoice() {
+  let userInput = prompt("Throw 'Rock', 'Paper', or 'Scissors'!");
+  //   console.log(userInput);
+  return userInput;
+}
