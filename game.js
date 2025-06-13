@@ -1,3 +1,7 @@
+let humanScore = 0;
+let computerScore = 0;
+let currRound = 1;
+
 function getComputerChoice() {
   let result;
   let randomNumber = Math.floor(Math.random() * 3) + 1;
@@ -8,70 +12,57 @@ function getComputerChoice() {
   } else if (randomNumber === 3) {
     result = "Scissors";
   }
-  //   console.log(result);
   return result;
 }
+function playRound(humanChoice, computerChoice) {
+  const results = document.querySelector("#results");
+  const runningScore = document.querySelector("#runningScore");
+  const rpsButtons = document.querySelector("#rps");
 
-function getHumanChoice() {
-  let userInput = prompt("Throw 'Rock', 'Paper', or 'Scissors'!");
-  //   console.log(userInput);
-  return userInput;
-}
+  const resultMessage = document.createElement("div");
+  resultMessage.classList.add("message");
 
-function welcomePlayer() {
-  console.log(
-    "---Welcome to Paper, Rock Scissors---\n" +
-      "\n" +
-      "The game consists of five rounds. \n\nIt will prompt you for your input and keep " +
-      "track of your score as you progress.\n\n" +
-      "Game starting...\n\n"
-  );
-}
+  let message = "";
 
-function playGame() {
-  welcomePlayer();
-
-  let humanScore = 0;
-  let computerScore = 0;
-  let currRound = 1;
-
-  function playRound(humanChoice, computerChoice) {
-    humanChoice = humanChoice.toUpperCase();
-    computerChoice = computerChoice.toUpperCase();
-
-    // console.log(humanChoice);
-    // console.log(computerChoice);
-    if (humanChoice === computerChoice) {
-      console.log("Draw!");
-    } else if (
-      (humanChoice === "ROCK" && computerChoice === "SCISSORS") ||
-      (humanChoice === "SCISSORS" && computerChoice === "PAPER") ||
-      (humanChoice === "PAPER" && computerChoice === "ROCK")
-    ) {
-      console.log("You win! " + humanChoice + " beats " + computerChoice);
-      humanScore++;
-    } else {
-      console.log("You lose! " + computerChoice + " beats " + humanChoice);
-      computerScore++;
-    }
-    //   console.log(humanScore);
-    //   console.log(computerScore);
+  if (humanChoice === computerChoice) {
+    message = "Draw!";
+  } else if (
+    (humanChoice === "Rock" && computerChoice === "Scissors") ||
+    (humanChoice === "Scissors" && computerChoice === "Paper") ||
+    (humanChoice === "Paper" && computerChoice === "Rock")
+  ) {
+    message = `You win! ${humanChoice} beats ${computerChoice}`;
+    humanScore++;
+  } else {
+    message = `You lose! ${computerChoice} beats ${humanChoice}`;
+    computerScore++;
   }
 
-  while (humanScore < 5 && computerScore < 5) {
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
-    console.log("-----Round " + currRound + "-----");
-    playRound(humanSelection, computerSelection);
-    currRound++;
-    console.log(humanScore);
-    console.log(computerScore);
-  }
-  if (humanScore === 5) {
-    console.log("You won the game! " + humanScore + "-" + computerScore);
-  } else if (computerScore === 5) {
-    console.log("You lost the game! " + humanScore + "-" + computerScore);
+  runningScore.textContent = `You ${humanScore} - Computer ${computerScore}`;
+  resultMessage.textContent = message;
+  results.appendChild(resultMessage);
+
+  if (humanScore === 5 || computerScore === 5) {
+    const finalMessage = document.createElement("div");
+    finalMessage.classList.add("final-message");
+    const winner =
+      humanScore === 5 ? "🎉 You won the game!" : "😞 You lost the game.";
+    finalMessage.textContent = winner;
+    results.appendChild(finalMessage);
+    rpsButtons.style.visibility = "hidden";
   }
 }
 
-playGame();
+const rockButton = document.querySelector("#rock");
+const paperButton = document.querySelector("#paper");
+const scissorsButton = document.querySelector("#scissors");
+
+rockButton.addEventListener("click", () => {
+  playRound("Rock", getComputerChoice());
+});
+paperButton.addEventListener("click", () => {
+  playRound("Paper", getComputerChoice());
+});
+scissorsButton.addEventListener("click", () => {
+  playRound("Scissors", getComputerChoice());
+});
